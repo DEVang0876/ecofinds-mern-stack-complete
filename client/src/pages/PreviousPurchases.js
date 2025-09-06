@@ -35,22 +35,28 @@ const PreviousPurchases = () => {
 	if (error) return <div>{error}</div>;
 
 	return (
-		<div className="previous-purchases-page">
-			<h2>Previous Purchases</h2>
+		<div className="container" style={{paddingTop:'1rem', paddingBottom:'2rem'}}>
+			<h2 style={{margin:'0 0 16px'}}>Previous Purchases</h2>
 			{orders.length === 0 ? (
 				<p>No previous purchases found.</p>
 			) : (
-				<ul>
-					{orders.map(order => (
-						<li key={order._id} className="order-item">
-							<span>Order #: {order.orderNumber}</span>
-							<span>Status: {order.status}</span>
-							<span>Total: ${order.totalAmount}</span>
-							<span>Items: {order.totalItems}</span>
-							<span>Date: {new Date(order.createdAt).toLocaleDateString()}</span>
-						</li>
+				<div style={{display:'flex', flexDirection:'column', gap:'16px'}}>
+					{orders.map(o => (
+						<div key={o._id} className="order-card">
+							<div className="order-card-header">
+								<strong>#{o.orderNumber}</strong>
+								<span className={`status-badge ${o.status}`}>{o.status}</span>
+							</div>
+							<div className="order-meta">{new Date(o.createdAt).toLocaleString()}</div>
+							<div style={{display:'flex', gap:16, flexWrap:'wrap', fontSize:'13px'}}>
+								<span><strong>Items:</strong> {o.totalItems}</span>
+								<span><strong>Total:</strong> ${o.totalAmount}</span>
+								{o.paymentMethod && <span><strong>Payment:</strong> {o.paymentMethod}</span>}
+								{o.shippingAddress && <span><strong>Ship To:</strong> {o.shippingAddress.city || ''} {o.shippingAddress.state || ''}</span>}
+							</div>
+						</div>
 					))}
-				</ul>
+				</div>
 			)}
 		</div>
 	);

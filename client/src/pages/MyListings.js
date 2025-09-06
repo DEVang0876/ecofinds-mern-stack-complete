@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import api from '../services/api';
 import { Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
+import ProductCard from '../components/common/ProductCard';
+import Button from '../components/common/Button';
 
 const MyListings = () => {
 	const [products, setProducts] = useState([]);
@@ -48,25 +50,26 @@ const MyListings = () => {
 	};
 
 	return (
-		<div className="my-listings-page">
-			<h2>My Listings</h2>
+		<div className="container" style={{paddingTop:'1rem', paddingBottom:'2rem'}}>
+			<div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:16}}>
+				<h2 style={{margin:0}}>My Listings</h2>
+				<Button outline onClick={fetchMyProducts} disabled={loading}>{loading ? 'Refreshing...' : 'Refresh'}</Button>
+			</div>
 			{loading && <p>Loading...</p>}
-			{error && <p className="error">{error}</p>}
-			{products.length === 0 ? (
-				<p>You have no listings.</p>
-			) : (
-				<ul>
-					{products.map(product => (
-						<li key={product._id} className="listing-item">
-							<span>{product.title || product.name}</span>
-							<span>Price: ${product.price}</span>
-							<Link to={`/edit-product/${product._id}`}>Edit</Link>
-							<button onClick={() => handleDelete(product._id)}>Delete</button>
-						</li>
-					))}
-				</ul>
-			)}
-			<button onClick={fetchMyProducts} disabled={loading} style={{marginTop:'1rem'}}>Refresh</button>
+			{error && <p className="error" style={{color:'var(--color-danger)'}}>{error}</p>}
+			{!loading && products.length === 0 && <p>You have no listings.</p>}
+			<div className="grid cols-4">
+				{products.map(p => (
+					<ProductCard
+						key={p._id}
+						product={p}
+						actions={[
+							<Link key="edit" to={`/edit-product/${p._id}`} className="button light" style={{textDecoration:'none'}}>Edit</Link>,
+							<button key="del" className="button danger" onClick={() => handleDelete(p._id)}>Delete</button>
+						]}
+					/>
+				))}
+			</div>
 			<ToastContainer />
 		</div>
 	);
