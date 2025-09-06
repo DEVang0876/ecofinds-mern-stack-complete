@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import logo from '../logo.png';
 import api from '../services/api';
 import ProductCard from '../components/common/ProductCard';
 
@@ -29,6 +30,9 @@ const Home = () => {
 
 	return (
 		<div className="container" style={{paddingTop:'1rem', paddingBottom:'3rem'}}>
+			<div style={{display:'flex', justifyContent:'center', marginBottom:28}}>
+				<img src={logo} alt="EcoFinds" style={{height:80, width:'auto'}} />
+			</div>
 			<section style={{display:'grid', gap:24, gridTemplateColumns:'repeat(auto-fit,minmax(300px,1fr))', alignItems:'center', marginBottom:48}}>
 				<div>
 					<h1 style={{fontSize:'2rem', lineHeight:1.2, margin:'0 0 12px'}}>Buy & Sell Pre‑Loved Goods Sustainably</h1>

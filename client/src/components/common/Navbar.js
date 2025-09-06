@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import logo from '../../logo.png';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 
@@ -19,7 +20,9 @@ const Navbar = () => {
 	return (
 		<header className="navbar-modern">
 			<div className="navbar-inner container" style={{justifyContent:'space-between'}}>
-				<Link to="/" style={{textDecoration:'none', color:'var(--color-text)', fontWeight:700, fontSize:'1.15rem'}}>EcoFinds</Link>
+				<Link to="/" style={{display:'flex', alignItems:'center', gap:8, textDecoration:'none'}}>
+					<img src={logo} alt="EcoFinds" style={{height:36, width:'auto', display:'block'}} />
+				</Link>
 				<button aria-label="Menu" onClick={() => setOpen(o=>!o)} className="button outline" style={{display:'none'}} id="nav-hamburger">☰</button>
 				<nav className="nav-links desktop" style={{flex:1}}>
 					<NavLink to="/" className={linkClass}>Home</NavLink>

@@ -10,7 +10,8 @@ const sampleUsers = [
     firstName: 'John',
     lastName: 'Doe',
     phone: '1234567890',
-    role: 'user'
+  role: 'user',
+  avatar: 'https://images.unsplash.com/photo-1502685104226-ee32379fefbe?auto=format&fit=crop&w=300&q=60'
   },
   {
     username: 'janedoe',
@@ -19,7 +20,8 @@ const sampleUsers = [
     firstName: 'Jane',
     lastName: 'Doe',
     phone: '0987654321',
-    role: 'user'
+  role: 'user',
+  avatar: 'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=300&q=60'
   },
   {
     username: 'admin',
@@ -27,7 +29,8 @@ const sampleUsers = [
     password: 'admin123',
     firstName: 'Admin',
     lastName: 'User',
-    role: 'admin'
+  role: 'admin',
+  avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=300&q=60'
   },
   {
     username: 'testuser',
@@ -36,7 +39,8 @@ const sampleUsers = [
     firstName: 'Test',
     lastName: 'User',
     phone: '5555555555',
-    role: 'user'
+  role: 'user',
+  avatar: 'https://images.unsplash.com/photo-1544723795-3fb6469f5b39?auto=format&fit=crop&w=300&q=60'
   }
 ];
 
@@ -50,7 +54,10 @@ const sampleProducts = [
     condition: 'Good',
     tags: ['vintage', 'leather', 'jacket', 'fashion'],
   location: { city: 'New York', state: 'NY' },
-  images: [ { url: 'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=800&q=60', alt: 'Vintage Leather Jacket' } ]
+  images: [
+    { url: 'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=800&q=60', alt: 'Vintage Leather Jacket Front' },
+    { url: 'https://images.unsplash.com/photo-1610375461246-83df859d9c1b?auto=format&fit=crop&w=800&q=60', alt: 'Vintage Leather Jacket Detail' }
+  ]
   },
   {
     title: 'iPhone 12 Pro',
@@ -60,7 +67,10 @@ const sampleProducts = [
     condition: 'Like New',
     tags: ['iphone', 'smartphone', 'apple', 'mobile'],
   location: { city: 'Los Angeles', state: 'CA' },
-  images: [ { url: 'https://images.unsplash.com/photo-1603899123225-287d08b0b09d?auto=format&fit=crop&w=800&q=60', alt: 'iPhone 12 Pro' } ]
+  images: [
+    { url: 'https://images.unsplash.com/photo-1603899123225-287d08b0b09d?auto=format&fit=crop&w=800&q=60', alt: 'iPhone 12 Pro Front' },
+    { url: 'https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?auto=format&fit=crop&w=800&q=60', alt: 'iPhone 12 Pro Back' }
+  ]
   },
   {
     title: 'Wooden Coffee Table',
@@ -70,7 +80,10 @@ const sampleProducts = [
     condition: 'Good',
     tags: ['furniture', 'table', 'wood', 'home'],
   location: { city: 'Chicago', state: 'IL' },
-  images: [ { url: 'https://images.unsplash.com/photo-1582582494700-1c79a86b5a10?auto=format&fit=crop&w=800&q=60', alt: 'Wooden Coffee Table' } ]
+  images: [
+    { url: 'https://images.unsplash.com/photo-1582582494700-1c79a86b5a10?auto=format&fit=crop&w=800&q=60', alt: 'Wooden Coffee Table' },
+    { url: 'https://images.unsplash.com/photo-1493666438817-866a91353ca9?auto=format&fit=crop&w=800&q=60', alt: 'Coffee Table Angle' }
+  ]
   },
   {
     title: 'Programming Books Collection',
@@ -80,7 +93,10 @@ const sampleProducts = [
     condition: 'Good',
     tags: ['books', 'programming', 'education', 'coding'],
   location: { city: 'Seattle', state: 'WA' },
-  images: [ { url: 'https://images.unsplash.com/photo-1519682337058-a94d519337bc?auto=format&fit=crop&w=800&q=60', alt: 'Programming Books' } ]
+  images: [
+    { url: 'https://images.unsplash.com/photo-1519682337058-a94d519337bc?auto=format&fit=crop&w=800&q=60', alt: 'Programming Books Stack' },
+    { url: 'https://images.unsplash.com/photo-1495446815901-a7297e633e8d?auto=format&fit=crop&w=800&q=60', alt: 'Coding Books Spread' }
+  ]
   },
   {
     title: 'Mountain Bike',
@@ -90,7 +106,10 @@ const sampleProducts = [
     condition: 'Like New',
     tags: ['bike', 'mountain', 'cycling', 'sports'],
   location: { city: 'Denver', state: 'CO' },
-  images: [ { url: 'https://images.unsplash.com/photo-1508974239320-0a0a6a8309da?auto=format&fit=crop&w=800&q=60', alt: 'Mountain Bike' } ]
+  images: [
+    { url: 'https://images.unsplash.com/photo-1508974239320-0a0a6a8309da?auto=format&fit=crop&w=800&q=60', alt: 'Mountain Bike Side' },
+    { url: 'https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=800&q=60', alt: 'Mountain Bike Detail' }
+  ]
   }
 ];
 
