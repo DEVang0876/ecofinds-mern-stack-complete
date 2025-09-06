@@ -49,7 +49,8 @@ const sampleProducts = [
     category: 'Clothing',
     condition: 'Good',
     tags: ['vintage', 'leather', 'jacket', 'fashion'],
-    location: { city: 'New York', state: 'NY' }
+  location: { city: 'New York', state: 'NY' },
+  images: [ { url: 'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=800&q=60', alt: 'Vintage Leather Jacket' } ]
   },
   {
     title: 'iPhone 12 Pro',
@@ -58,7 +59,8 @@ const sampleProducts = [
     category: 'Electronics',
     condition: 'Like New',
     tags: ['iphone', 'smartphone', 'apple', 'mobile'],
-    location: { city: 'Los Angeles', state: 'CA' }
+  location: { city: 'Los Angeles', state: 'CA' },
+  images: [ { url: 'https://images.unsplash.com/photo-1603899123225-287d08b0b09d?auto=format&fit=crop&w=800&q=60', alt: 'iPhone 12 Pro' } ]
   },
   {
     title: 'Wooden Coffee Table',
@@ -67,7 +69,8 @@ const sampleProducts = [
     category: 'Furniture',
     condition: 'Good',
     tags: ['furniture', 'table', 'wood', 'home'],
-    location: { city: 'Chicago', state: 'IL' }
+  location: { city: 'Chicago', state: 'IL' },
+  images: [ { url: 'https://images.unsplash.com/photo-1582582494700-1c79a86b5a10?auto=format&fit=crop&w=800&q=60', alt: 'Wooden Coffee Table' } ]
   },
   {
     title: 'Programming Books Collection',
@@ -76,7 +79,8 @@ const sampleProducts = [
     category: 'Books',
     condition: 'Good',
     tags: ['books', 'programming', 'education', 'coding'],
-    location: { city: 'Seattle', state: 'WA' }
+  location: { city: 'Seattle', state: 'WA' },
+  images: [ { url: 'https://images.unsplash.com/photo-1519682337058-a94d519337bc?auto=format&fit=crop&w=800&q=60', alt: 'Programming Books' } ]
   },
   {
     title: 'Mountain Bike',
@@ -85,7 +89,8 @@ const sampleProducts = [
     category: 'Sports',
     condition: 'Like New',
     tags: ['bike', 'mountain', 'cycling', 'sports'],
-    location: { city: 'Denver', state: 'CO' }
+  location: { city: 'Denver', state: 'CO' },
+  images: [ { url: 'https://images.unsplash.com/photo-1508974239320-0a0a6a8309da?auto=format&fit=crop&w=800&q=60', alt: 'Mountain Bike' } ]
   }
 ];
 

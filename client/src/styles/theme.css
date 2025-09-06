@@ -106,6 +106,15 @@ html, body { background: var(--color-bg); color: var(--color-text); font-family:
 
 /* Responsive */
 @media (max-width: 700px) {
-  .nav-links { gap: var(--sp-2); }
+  .nav-links.desktop { display:none !important; }
+  #nav-hamburger, .mobile-drawer-trigger { display:block !important; }
   .grid.cols-4 { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
 }
+
+/* Mobile drawer */
+.mobile-drawer { position:fixed; top:0; right:-280px; width:260px; height:100vh; background:#fff; box-shadow: -2px 0 8px rgba(0,0,0,0.08); padding: var(--sp-5) var(--sp-4); display:flex; flex-direction:column; gap:12px; transition:.3s ease; z-index:100; }
+.mobile-drawer.open { right:0; }
+.drawer-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:4px; }
+.drawer-links a, .mobile-drawer button { text-decoration:none; color: var(--color-text); font-size:15px; padding:8px 4px; border-radius:4px; display:block; }
+.drawer-links a.active { color: var(--color-primary); font-weight:600; }
+.drawer-links a:hover { background: var(--color-muted); }
