@@ -42,32 +42,25 @@ const getCart = asyncHandler(async (req, res, next) => {
 const addToCart = asyncHandler(async (req, res, next) => {
   const { productId, quantity = 1 } = req.body;
 
-  // Debug incoming payload
-  console.log('addToCart payload:', req.body);
-
   // Check if product exists and is available
   const product = await Product.findById(productId);
 
   if (!product) {
-    console.log('addToCart error: Product not found for id', productId);
-    return errorResponse(res, 404, 'Product not found', { reason: 'product_not_found' });
+    return errorResponse(res, 404, 'Product not found');
   }
 
   if (!product.isAvailable) {
-    console.log('addToCart error: Product not available', productId);
-    return errorResponse(res, 400, 'Product is not available', { reason: 'product_unavailable' });
+    return errorResponse(res, 400, 'Product is not available');
   }
 
   // Check if user is trying to add their own product
   if (product.seller.toString() === req.user.id) {
-    console.log('addToCart error: cannot add own product', { productId, seller: product.seller.toString(), user: req.user.id });
-    return errorResponse(res, 400, 'You cannot add your own product to cart', { reason: 'own_product' });
+    return errorResponse(res, 400, 'You cannot add your own product to cart');
   }
 
   // Check stock
   if (product.quantity < quantity) {
-    console.log('addToCart error: insufficient stock', { available: product.quantity, requested: quantity });
-    return errorResponse(res, 400, `Only ${product.quantity} items available in stock`, { reason: 'insufficient_stock', available: product.quantity });
+    return errorResponse(res, 400, `Only ${product.quantity} items available in stock`);
   }
 
   // Find or create cart

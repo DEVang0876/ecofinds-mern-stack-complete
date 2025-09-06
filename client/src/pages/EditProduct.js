@@ -44,14 +44,7 @@ const EditProduct = () => {
 		setError(null);
 		setLoading(true);
 		try {
-			const payload = {
-				title: form.title,
-				description: form.description,
-				price: Number(form.price),
-				category: form.category,
-				condition: form.condition
-			};
-			await api.put(`/products/${id}`, payload);
+			await api.put(`/products/${id}`, form);
 			toast.success('Product updated!');
 		} catch (err) {
 			setError('Failed to update product');
@@ -62,26 +55,46 @@ const EditProduct = () => {
 	};
 
 	return (
-		<div className="edit-product-page container">
-			<div className="card" style={{ maxWidth: 900, margin: '2rem auto' }}>
-				<div className="card-body">
-					<h2 style={{ marginBottom: 12 }}>Edit Product</h2>
-					<form onSubmit={handleSubmit} className="grid md-grid-cols-2 gap-4">
-						<input className="form-input" type="text" name="title" placeholder="Title" value={form.title} onChange={handleChange} required />
-						<input className="form-input" type="text" name="category" placeholder="Category" value={form.category} onChange={handleChange} />
-						<textarea className="form-input" name="description" placeholder="Description" value={form.description} onChange={handleChange} required style={{ gridColumn: '1 / -1' }} />
-						<input className="form-input" type="number" name="price" placeholder="Price" value={form.price} onChange={handleChange} required />
-						<select className="form-input" name="condition" value={form.condition} onChange={handleChange}>
-							<option value="new">New</option>
-							<option value="used">Used</option>
-						</select>
-						<div style={{ gridColumn: '1 / -1' }}>
-							<button className="btn btn-primary" type="submit" disabled={loading}>Update Product</button>
-						</div>
-					</form>
-					{error && <p className="form-error">{error}</p>}
-				</div>
-			</div>
+		<div className="edit-product-page">
+			<h2>Edit Product</h2>
+			<form onSubmit={handleSubmit}>
+				<input
+					type="text"
+					name="title"
+					placeholder="Title"
+					value={form.title}
+					onChange={handleChange}
+					required
+				/>
+				<textarea
+					name="description"
+					placeholder="Description"
+					value={form.description}
+					onChange={handleChange}
+					required
+				/>
+				<input
+					type="number"
+					name="price"
+					placeholder="Price"
+					value={form.price}
+					onChange={handleChange}
+					required
+				/>
+				<input
+					type="text"
+					name="category"
+					placeholder="Category"
+					value={form.category}
+					onChange={handleChange}
+				/>
+				<select name="condition" value={form.condition} onChange={handleChange}>
+					<option value="new">New</option>
+					<option value="used">Used</option>
+				</select>
+				<button type="submit" disabled={loading}>Update Product</button>
+			</form>
+			{error && <p className="error">{error}</p>}
 			<ToastContainer />
 		</div>
 	);
