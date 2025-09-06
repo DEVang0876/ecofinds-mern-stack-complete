@@ -10,18 +10,32 @@ const MyListings = () => {
 	const [error, setError] = useState(null);
 
 	useEffect(() => {
-		const fetchMyProducts = async () => {
-			try {
-				const res = await api.get('/products/user/my-products');
-				setProducts(res.data.data.products || res.data.products || []);
-			} catch (err) {
-				setError('Failed to load your listings');
-			} finally {
-				setLoading(false);
-			}
-		};
 		fetchMyProducts();
 	}, []);
+
+	const fetchMyProducts = async () => {
+		setLoading(true);
+		setError(null);
+		try {
+			const res = await api.get('/products/user/my-products');
+			const raw = res.data;
+			let extracted = [];
+			// Backend paginatedResponse: data is an array
+			if (Array.isArray(raw.data)) {
+				extracted = raw.data;
+			} else if (raw.data && Array.isArray(raw.data.products)) {
+				extracted = raw.data.products;
+			} else if (Array.isArray(raw.products)) {
+				extracted = raw.products;
+			}
+			setProducts(extracted);
+		} catch (err) {
+			console.error('Fetch my products error', err?.response?.data || err.message);
+			setError('Failed to load your listings');
+		} finally {
+			setLoading(false);
+		}
+	};
 
 	const handleDelete = async (id) => {
 		try {
@@ -52,6 +66,7 @@ const MyListings = () => {
 					))}
 				</ul>
 			)}
+			<button onClick={fetchMyProducts} disabled={loading} style={{marginTop:'1rem'}}>Refresh</button>
 			<ToastContainer />
 		</div>
 	);

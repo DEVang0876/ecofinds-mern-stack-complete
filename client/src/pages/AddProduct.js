@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import { ToastContainer, toast } from 'react-toastify';
 
@@ -10,6 +11,7 @@ const CATEGORIES = [
 const CONDITIONS = ['New','Like New','Good','Fair','Poor'];
 
 const AddProduct = () => {
+	const navigate = useNavigate();
 	const [form, setForm] = useState({
 		title: '',
 		description: '',
@@ -68,6 +70,8 @@ const AddProduct = () => {
 			toast.success('Product added!');
 			setForm({ title: '', description: '', price: '', category: 'Electronics', condition: 'Good', quantity: 1, tags: '', city: '', state: '' });
 			setImages([]);
+			// Redirect to My Listings so the user can see the new product
+			setTimeout(() => navigate('/my-listings'), 600);
 		} catch (err) {
 			let msg = err?.response?.data?.message || err.message || 'Failed to add product';
 			// Collect server validation errors if present
