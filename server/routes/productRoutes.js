@@ -17,8 +17,8 @@ const { uploadMultiple, handleUploadError } = require('../middleware/upload');
 
 const router = express.Router();
 
-// Public routes
-router.get('/', getProducts);
+// Public (with optional auth for excluding own listings)
+router.get('/', optionalAuth, getProducts);
 router.get('/categories', getCategories);
 router.get('/:id', optionalAuth, getProduct);
 

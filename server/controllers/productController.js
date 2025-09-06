@@ -10,8 +10,13 @@ const { successResponse, errorResponse, getPagination, paginatedResponse } = req
 const getProducts = asyncHandler(async (req, res, next) => {
   const { page, limit, category, condition, search, sortBy, minPrice, maxPrice } = req.query;
 
-  // Build query
+  // Build base query
   let query = { isAvailable: true };
+
+  // Exclude current user's products if authenticated (and not admin) so user doesn't see own listings in general feed
+  if (req.user && req.user.role !== 'admin') {
+    query.seller = { $ne: req.user.id };
+  }
 
   // Category filter
   if (category && category !== 'all') {
@@ -92,9 +97,21 @@ const getProduct = asyncHandler(async (req, res, next) => {
 // @route   POST /api/products
 // @access  Private
 const createProduct = asyncHandler(async (req, res, next) => {
-  const { title, description, price, category, condition, tags, location, quantity } = req.body;
+  const { title, description, price, category, condition, tags, location, quantity, imageUrls } = req.body;
 
-  // Create product with seller reference
+  // Build images array: prioritize uploaded files (multer) else parse imageUrls (comma/newline separated)
+  let images = [];
+  if (req.files && req.files.length > 0) {
+    images = req.files.map(f => ({ url: `/uploads/${f.filename}`, alt: title }));
+  } else if (imageUrls) {
+    const parsed = imageUrls
+      .split(/\n|,/)
+      .map(u => u.trim())
+      .filter(u => /^https?:\/\//i.test(u));
+    images = parsed.slice(0, 5).map(u => ({ url: u, alt: title }));
+  }
+
+  // Fallback: if still empty, leave default schema placeholder
   const product = await Product.create({
     title,
     description,
@@ -104,7 +121,8 @@ const createProduct = asyncHandler(async (req, res, next) => {
     tags: tags ? tags.split(',').map(tag => tag.trim()) : [],
     location,
     quantity: quantity || 1,
-    seller: req.user.id
+    seller: req.user.id,
+    ...(images.length ? { images } : {})
   });
 
   // Populate seller info
