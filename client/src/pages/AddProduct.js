@@ -44,33 +44,13 @@ const AddProduct = () => {
 	};
 
 	return (
-		<div className="add-product-page">
-			<h2>Add Product</h2>
-			<form onSubmit={handleSubmit}>
-				<input
-					type="text"
-					name="title"
-					placeholder="Title"
-					value={form.title}
-					onChange={handleChange}
-					required
-				/>
-				<textarea
-					name="description"
-					placeholder="Description"
-					value={form.description}
-					onChange={handleChange}
-					required
-				/>
-				<input
-					type="number"
-					name="price"
-					placeholder="Price"
-					value={form.price}
-					onChange={handleChange}
-					required
-				/>
-						<select name="category" value={form.category} onChange={handleChange} required>
+		<div className="add-product-page container">
+			<div className="card" style={{ maxWidth: 900, margin: '2rem auto' }}>
+				<div className="card-body">
+					<h2 style={{ marginBottom: 12 }}>Add Product</h2>
+					<form onSubmit={handleSubmit} className="grid md-grid-cols-2 gap-4">
+						<input className="form-input" type="text" name="title" placeholder="Title" value={form.title} onChange={handleChange} required />
+						<select className="form-input" name="category" value={form.category} onChange={handleChange} required>
 							<option value="Electronics">Electronics</option>
 							<option value="Clothing">Clothing</option>
 							<option value="Books">Books</option>
@@ -82,16 +62,22 @@ const AddProduct = () => {
 							<option value="Health & Beauty">Health & Beauty</option>
 							<option value="Others">Others</option>
 						</select>
-						<select name="condition" value={form.condition} onChange={handleChange} required>
+						<textarea className="form-input" name="description" placeholder="Description" value={form.description} onChange={handleChange} required style={{ gridColumn: '1 / -1' }} />
+						<input className="form-input" type="number" name="price" placeholder="Price" value={form.price} onChange={handleChange} required />
+						<select className="form-input" name="condition" value={form.condition} onChange={handleChange} required>
 							<option value="New">New</option>
 							<option value="Like New">Like New</option>
 							<option value="Good">Good</option>
 							<option value="Fair">Fair</option>
 							<option value="Poor">Poor</option>
 						</select>
-				<button type="submit" disabled={loading}>Add Product</button>
-			</form>
-			{error && <p className="error">{error}</p>}
+						<div style={{ gridColumn: '1 / -1' }}>
+							<button className="btn btn-primary" type="submit" disabled={loading}>Add Product</button>
+						</div>
+					</form>
+					{error && <p className="form-error">{error}</p>}
+				</div>
+			</div>
 			<ToastContainer />
 		</div>
 	);

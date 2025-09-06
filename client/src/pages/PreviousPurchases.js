@@ -21,67 +21,64 @@ const PreviousPurchases = () => {
 
 	useEffect(() => {
 		const fetchOrders = async () => {
+			setLoading(true);
 			try {
 				const res = await api.get('/orders/my-orders');
-				console.log('API response for /orders/my-orders:', res.data);
-				// Normalize response shapes
-				let orders = [];
-				if (Array.isArray(res.data.data)) orders = res.data.data;
-				else if (res.data.data && Array.isArray(res.data.data.orders)) orders = res.data.data.orders;
-				else if (Array.isArray(res.data.orders)) orders = res.data.orders;
-				else if (res.data.data && res.data.data.order) orders = [res.data.data.order];
-				setOrders(orders);
+				setOrders(res.data.orders || []);
 			} catch (err) {
-				setError('Failed to load previous purchases');
-			} finally {
-				setLoading(false);
+				setError(err.response?.data?.message || err.message || 'Failed to load orders');
 			}
+			setLoading(false);
 		};
+
 		fetchOrders();
 	}, []);
 
-	if (loading) return <div>Loading previous purchases...</div>;
-	if (error) return <div>{error}</div>;
+	if (loading) return <div className="container"><div className="card"><div className="card-body">Loading orders...</div></div></div>;
+
+	if (error) return <div className="container"><div className="card"><div className="card-body">Error: {error}</div></div></div>;
 
 	return (
-		<div style={{ padding: 20 }}>
-			<h2>Previous Purchases</h2>
+		<div className="container">
+			<h2 style={{ margin: '1rem 0' }}>Previous Purchases</h2>
 			{orders.length === 0 ? (
-				<div style={{ color: '#666' }}>No previous purchases found.</div>
+				<div className="card"><div className="card-body">No previous purchases found.</div></div>
 			) : (
-				orders.map(order => (
-					<div key={order._id} style={{ marginBottom: 20, border: '1px solid #e6e6e6', borderRadius: 8, overflow: 'hidden' }}>
-						<div style={{ display: 'flex', justifyContent: 'space-between', padding: 12, background: '#fafafa', borderBottom: '1px solid #eee' }}>
-							<div>
-								<div style={{ fontSize: 16, fontWeight: 700 }}>Order #{order.orderNumber}</div>
-								<div style={{ color: '#666', fontSize: 13 }}>{new Date(order.createdAt).toLocaleString()}</div>
-							</div>
-							<div style={{ textAlign: 'right' }}>
-								<div style={{ fontWeight: 700 }}>${order.totalAmount}</div>
-								<div style={{ color: '#0ea5a4', fontWeight: 600 }}>{order.status}</div>
-							</div>
-						</div>
-
-						<div>
-							{order.items && order.items.length > 0 ? (
-								order.items.map(item => <OrderItem key={item._id} item={item} />)
-							) : (
-								<div style={{ padding: 12 }}>No items found for this order.</div>
-							)}
-						</div>
-
-						<div style={{ padding: 12, background: '#fafafa', borderTop: '1px solid #eee' }}>
-							<div style={{ fontWeight: 700 }}>Shipping Address</div>
-							{order.shippingAddress ? (
-								<div style={{ color: '#444' }}>
-									{order.shippingAddress.street}, {order.shippingAddress.city}, {order.shippingAddress.state} {order.shippingAddress.zipCode}, {order.shippingAddress.country}
+				<div style={{ display: 'grid', gap: 16 }}>
+					{orders.map(order => (
+						<div key={order._id} className="card">
+							<div style={{ display: 'flex', justifyContent: 'space-between', padding: 12, borderBottom: '1px solid #eee', background: '#fafafa' }}>
+								<div>
+									<div style={{ fontSize: 16, fontWeight: 700 }}>Order #{order.orderNumber}</div>
+									<div style={{ color: '#666', fontSize: 13 }}>{new Date(order.createdAt).toLocaleString()}</div>
 								</div>
-							) : (
-								<div style={{ color: '#666' }}>No shipping address available</div>
-							)}
+								<div style={{ textAlign: 'right' }}>
+									<div style={{ fontWeight: 700 }}>${order.totalAmount}</div>
+									<div style={{ color: '#059669', fontWeight: 600 }}>{order.status}</div>
+								</div>
+							</div>
+
+							<div>
+								{order.items && order.items.length > 0 ? (
+									order.items.map(item => <OrderItem key={item._id} item={item} />)
+								) : (
+									<div style={{ padding: 12 }}>No items found for this order.</div>
+								)}
+							</div>
+
+							<div style={{ padding: 12, background: '#fafafa', borderTop: '1px solid #eee' }}>
+								<div style={{ fontWeight: 700 }}>Shipping Address</div>
+								{order.shippingAddress ? (
+									<div style={{ color: '#444' }}>
+										{order.shippingAddress.street}, {order.shippingAddress.city}, {order.shippingAddress.state} {order.shippingAddress.zipCode}, {order.shippingAddress.country}
+									</div>
+								) : (
+									<div style={{ color: '#666' }}>No shipping address available</div>
+								)}
+							</div>
 						</div>
-					</div>
-				))
+					))}
+				</div>
 			)}
 		</div>
 	);
