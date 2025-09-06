@@ -39,8 +39,16 @@ const AddProduct = () => {
 		setLoading(true);
 		try {
 			// Validate basics
-			if (!form.title || !form.description || !form.price) {
-				throw new Error('Please fill required fields');
+			const clientErrors = [];
+			if (!form.title) clientErrors.push('Title is required');
+			if (!form.description) clientErrors.push('Description is required');
+			if (form.description && form.description.trim().length < 10) clientErrors.push('Description must be at least 10 characters');
+			if (!form.price) clientErrors.push('Price is required');
+			if (Number(form.price) < 0) clientErrors.push('Price must be positive');
+			if (!CATEGORIES.includes(form.category)) clientErrors.push('Invalid category');
+			if (!CONDITIONS.includes(form.condition)) clientErrors.push('Invalid condition');
+			if (clientErrors.length) {
+				throw new Error(clientErrors.join('\n'));
 			}
 			const fd = new FormData();
 			fd.append('title', form.title.trim());
@@ -61,9 +69,15 @@ const AddProduct = () => {
 			setForm({ title: '', description: '', price: '', category: 'Electronics', condition: 'Good', quantity: 1, tags: '', city: '', state: '' });
 			setImages([]);
 		} catch (err) {
-			const msg = err?.response?.data?.message || err.message || 'Failed to add product';
+			let msg = err?.response?.data?.message || err.message || 'Failed to add product';
+			// Collect server validation errors if present
+			if (err?.response?.data?.errors && Array.isArray(err.response.data.errors)) {
+				const detail = err.response.data.errors.map(er => `${er.field}: ${er.message}`).join('\n');
+				msg = `${msg}\n${detail}`;
+			}
 			setError(msg);
-			toast.error(msg);
+			// Show only first line in toast for brevity
+			toast.error(msg.split('\n')[0]);
 		} finally {
 			setLoading(false);
 		}
@@ -140,7 +154,7 @@ const AddProduct = () => {
 				{images.length > 0 && <p>{images.length} image(s) selected</p>}
 				<button type="submit" disabled={loading}>Add Product</button>
 			</form>
-			{error && <p className="error">{error}</p>}
+			{error && <pre className="error" style={{whiteSpace:'pre-wrap',color:'red'}}>{error}</pre>}
 			<ToastContainer />
 		</div>
 	);
