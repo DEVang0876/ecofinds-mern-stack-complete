@@ -1,8 +1,10 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useCart } from '../context/CartContext';
 import { ToastContainer, toast } from 'react-toastify';
 import Button from '../components/common/Button';
+import api from '../services/api';
+import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
 	const {
@@ -16,6 +18,8 @@ const Cart = () => {
 		error,
 		clearError
 	} = useCart();
+  const [placing, setPlacing] = useState(false);
+  const navigate = useNavigate();
 
 	const handleUpdate = async (productId, quantity) => {
 		clearError();
@@ -33,6 +37,24 @@ const Cart = () => {
 		clearError();
 		const result = await clearCart();
 		if (!result.success) toast.error(result.error);
+	};
+
+	const handleCheckout = async () => {
+		if (items.length === 0) return;
+		setPlacing(true);
+		clearError();
+		try {
+			// Build order items from cart
+			const orderItems = items.map(it => ({ product: it.product._id, quantity: it.quantity }));
+			const res = await api.post('/orders', { items: orderItems });
+			toast.success('Order placed');
+			await clearCart();
+			setTimeout(() => navigate('/orders'), 500);
+		} catch (err) {
+			toast.error(err?.response?.data?.message || 'Checkout failed');
+		} finally {
+			setPlacing(false);
+		}
 	};
 
 	return (
@@ -67,14 +89,17 @@ const Cart = () => {
 					</div>
 					<div className="card" style={{height:'fit-content'}}>
 						<h3 style={{marginTop:0, fontSize:'1rem'}}>Summary</h3>
-						<div style={{display:'flex', justifyContent:'space-between', fontSize:14, marginBottom:8}}>
+						<div style={{display:'flex', justifyContent:'space-between', fontSize:14, marginBottom:6}}>
 							<span>Items</span><span>{totalItems}</span>
 						</div>
-						<div style={{display:'flex', justifyContent:'space-between', fontWeight:600, marginBottom:16}}>
-							<span>Total</span><span>${totalAmount}</span>
+						<div style={{display:'flex', justifyContent:'space-between', fontSize:14, marginBottom:6}}>
+							<span>Subtotal</span><span>${Number(totalAmount).toFixed(2)}</span>
+						</div>
+						<div style={{display:'flex', justifyContent:'space-between', fontWeight:600, margin:'10px 0 16px'}}>
+							<span>Total</span><span>${Number(totalAmount).toFixed(2)}</span>
 						</div>
 						<Button outline style={{width:'100%', marginBottom:8}} onClick={handleClear}>Clear Cart</Button>
-						<Button style={{width:'100%'}} disabled>Checkout (Stub)</Button>
+						<Button style={{width:'100%'}} onClick={handleCheckout} disabled={placing || items.length===0}>{placing ? 'Placing...' : 'Checkout'}</Button>
 					</div>
 				</div>
 			)}
