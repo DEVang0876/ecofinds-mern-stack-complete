@@ -20,7 +20,7 @@ const Navbar = () => {
 					<Link to="/products">Products</Link>
 					<Link to="/cart">Cart</Link>
 					<Link to="/orders">Orders</Link>
-					<Link to="/previous-purchases">Previous Purchases</Link>
+					<Link to="/purchases">Previous Purchases</Link>
 					<Link to="/my-listings">My Listings</Link>
 					<Link to="/add-product">Add Product</Link>
 					{isAuthenticated ? (

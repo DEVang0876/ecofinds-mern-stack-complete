@@ -109,4 +109,8 @@ async function seedTestUserData() {
 
 seedTestUserData();
 
-REACT_APP_API_URL=http://localhost:5001/api
+//REACT_APP_API_URL=http://localhost:5001/api
+
+if (product.seller.toString() === req.user.id) {
+  return errorResponse(res, 400, 'You cannot add your own product to cart');
+}

@@ -4,13 +4,13 @@ import api from '../services/api';
 import { ToastContainer, toast } from 'react-toastify';
 
 const AddProduct = () => {
-	const [form, setForm] = useState({
-		title: '',
-		description: '',
-		price: '',
-		category: '',
-		condition: 'new'
-	});
+		const [form, setForm] = useState({
+			title: '',
+			description: '',
+			price: '',
+			category: 'Electronics',
+			condition: 'New'
+		});
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(null);
 
@@ -61,17 +61,25 @@ const AddProduct = () => {
 					onChange={handleChange}
 					required
 				/>
-				<input
-					type="text"
-					name="category"
-					placeholder="Category"
-					value={form.category}
-					onChange={handleChange}
-				/>
-				<select name="condition" value={form.condition} onChange={handleChange}>
-					<option value="new">New</option>
-					<option value="used">Used</option>
-				</select>
+						<select name="category" value={form.category} onChange={handleChange} required>
+							<option value="Electronics">Electronics</option>
+							<option value="Clothing">Clothing</option>
+							<option value="Books">Books</option>
+							<option value="Furniture">Furniture</option>
+							<option value="Sports">Sports</option>
+							<option value="Toys">Toys</option>
+							<option value="Vehicles">Vehicles</option>
+							<option value="Home & Garden">Home & Garden</option>
+							<option value="Health & Beauty">Health & Beauty</option>
+							<option value="Others">Others</option>
+						</select>
+						<select name="condition" value={form.condition} onChange={handleChange} required>
+							<option value="New">New</option>
+							<option value="Like New">Like New</option>
+							<option value="Good">Good</option>
+							<option value="Fair">Fair</option>
+							<option value="Poor">Poor</option>
+						</select>
 				<button type="submit" disabled={loading}>Add Product</button>
 			</form>
 			{error && <p className="error">{error}</p>}
