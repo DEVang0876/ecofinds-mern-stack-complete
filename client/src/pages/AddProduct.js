@@ -23,12 +23,21 @@ const AddProduct = () => {
 		setError(null);
 		setLoading(true);
 		try {
-			await api.post('/products', form);
-			toast.success('Product added!');
-			setForm({ title: '', description: '', price: '', category: '', condition: 'new' });
+			// Ensure numeric price and properly formatted payload
+			const payload = {
+				title: form.title,
+				description: form.description,
+				price: Number(form.price),
+				category: form.category,
+				condition: form.condition
+			};
+			const res = await api.post('/products', payload);
+			toast.success(res.data?.message || 'Product added!');
+			setForm({ title: '', description: '', price: '', category: 'Electronics', condition: 'New' });
 		} catch (err) {
-			setError('Failed to add product');
-			toast.error('Failed to add product');
+			const msg = err.response?.data?.message || 'Failed to add product';
+			setError(msg);
+			toast.error(msg);
 		} finally {
 			setLoading(false);
 		}

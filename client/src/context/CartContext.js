@@ -109,9 +109,9 @@ export const CartProvider = ({ children }) => {
       });
       return { success: true };
     } catch (error) {
-      const errorMessage = error.response?.data?.message || 'Failed to add item to cart';
-      dispatch({ type: CART_ACTIONS.SET_ERROR, payload: errorMessage });
-      return { success: false, error: errorMessage };
+      const errorData = error.response?.data || { message: 'Failed to add item to cart' };
+      dispatch({ type: CART_ACTIONS.SET_ERROR, payload: errorData.message });
+      return { success: false, error: errorData };
     }
   };
 
@@ -126,9 +126,9 @@ export const CartProvider = ({ children }) => {
       });
       return { success: true };
     } catch (error) {
-      const errorMessage = error.response?.data?.message || 'Failed to update cart item';
-      dispatch({ type: CART_ACTIONS.SET_ERROR, payload: errorMessage });
-      return { success: false, error: errorMessage };
+  const errorData = error.response?.data || { message: 'Failed to update cart item' };
+  dispatch({ type: CART_ACTIONS.SET_ERROR, payload: errorData.message });
+  return { success: false, error: errorData };
     }
   };
 
@@ -143,9 +143,9 @@ export const CartProvider = ({ children }) => {
       });
       return { success: true };
     } catch (error) {
-      const errorMessage = error.response?.data?.message || 'Failed to remove item from cart';
-      dispatch({ type: CART_ACTIONS.SET_ERROR, payload: errorMessage });
-      return { success: false, error: errorMessage };
+  const errorData = error.response?.data || { message: 'Failed to remove item from cart' };
+  dispatch({ type: CART_ACTIONS.SET_ERROR, payload: errorData.message });
+  return { success: false, error: errorData };
     }
   };
 

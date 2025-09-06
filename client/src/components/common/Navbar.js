@@ -2,9 +2,11 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { useCart } from '../../context/CartContext';
 
 const Navbar = () => {
 	const { isAuthenticated, user, logout } = useAuth();
+	const { totalItems } = useCart();
 	const navigate = useNavigate();
 
 	const handleLogout = async () => {
@@ -13,28 +15,31 @@ const Navbar = () => {
 	};
 
 		return (
-			<nav className="navbar" style={{ display: 'flex', alignItems: 'center', padding: '1rem', background: '#fff', borderBottom: '1px solid #eee' }}>
-				<h2 style={{ marginRight: '2rem' }}>EcoFinds</h2>
-				<div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
-					<Link to="/">Home</Link>
-					<Link to="/products">Products</Link>
-					<Link to="/cart">Cart</Link>
-					<Link to="/orders">Orders</Link>
-					<Link to="/purchases">Previous Purchases</Link>
-					<Link to="/my-listings">My Listings</Link>
-					<Link to="/add-product">Add Product</Link>
-					{isAuthenticated ? (
-						<>
-							<Link to="/dashboard">Dashboard</Link>
-							<button onClick={handleLogout} style={{ background: 'none', border: 'none', color: '#059669', cursor: 'pointer' }}>Logout</button>
-							<span style={{ color: '#333', fontWeight: 'bold' }}>Welcome, {user?.username || user?.email}</span>
-						</>
-					) : (
-						<>
-							<Link to="/login">Login</Link>
-							<Link to="/register">Register</Link>
-						</>
-					)}
+			<nav className="navbar">
+				<div className="navbar-container container">
+					<Link to="/" className="navbar-brand">EcoFinds</Link>
+					<div className="navbar-nav">
+						<Link className="navbar-link" to="/">Home</Link>
+						<Link className="navbar-link" to="/products">Products</Link>
+						<Link className="navbar-link" to="/cart">Cart{totalItems ? ` (${totalItems})` : ''}</Link>
+						<Link className="navbar-link" to="/orders">Orders</Link>
+						<Link className="navbar-link" to="/purchases">Previous Purchases</Link>
+						<Link className="navbar-link" to="/my-listings">My Listings</Link>
+						<Link className="navbar-link" to="/add-product">Add Product</Link>
+
+						{isAuthenticated ? (
+							<>
+								<Link className="navbar-link" to="/dashboard">Dashboard</Link>
+								<button className="btn btn-outline" onClick={handleLogout}>Logout</button>
+								<span style={{ color: '#0f172a', fontWeight: 600 }}>Welcome, {user?.username || user?.email}</span>
+							</>
+						) : (
+							<>
+								<Link className="navbar-link" to="/login">Login</Link>
+								<Link className="navbar-link" to="/register">Register</Link>
+							</>
+						)}
+					</div>
 				</div>
 			</nav>
 		);
