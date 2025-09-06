@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from 'react';
 import api from '../services/api';
-import { Link } from 'react-router-dom';
+import ProductCard from '../components/common/ProductCard';
 
 const Products = () => {
 	const [products, setProducts] = useState([]);
@@ -26,22 +26,17 @@ const Products = () => {
 	if (error) return <div>{error}</div>;
 
 	return (
-		<div className="products-list">
-			<h2>Products</h2>
-			<div className="products-grid">
-				{products.length === 0 ? (
-					<p>No products found.</p>
-				) : (
-					products.map(product => (
-						<div key={product._id} className="product-card">
-							<h3>{product.title || product.name}</h3>
-							<p>{product.description}</p>
-							<p>Price: ${product.price}</p>
-							<Link to={`/products/${product._id}`}>View Details</Link>
-						</div>
-					))
-				)}
+		<div className="container" style={{paddingTop:'1rem', paddingBottom:'2rem'}}>
+			<div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:16}}>
+				<h2 style={{margin:0, fontSize:'1.4rem'}}>Products</h2>
 			</div>
+			{products.length === 0 ? (
+				<p>No products found.</p>
+			) : (
+				<div className="grid cols-4">
+					{products.map(p => <ProductCard key={p._id} product={p} />)}
+				</div>
+			)}
 		</div>
 	);
 };
