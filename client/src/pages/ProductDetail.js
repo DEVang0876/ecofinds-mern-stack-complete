@@ -31,11 +31,13 @@ const ProductDetail = () => {
 
 	const handleAddToCart = async () => {
 		clearError();
+		console.log('Adding to cart payload:', { productId: product._id, quantity });
 		const result = await addToCart(product._id, quantity);
+		console.log('Add to cart result:', result);
 		if (result.success) {
 			toast.success('Added to cart!');
 		} else {
-			toast.error(result.error);
+			toast.error(result.error || 'Failed to add to cart');
 		}
 	};
 
