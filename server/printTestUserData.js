@@ -14,23 +14,29 @@ async function printTestUserData() {
     });
     console.log('✅ Connected to MongoDB');
 
-    // Find test user
-    const testUser = await User.findOne({ email: 'testuser@ecofinds.com' });
-    if (!testUser) throw new Error('Test user not found');
+  // Find test user and include password field
+  const testUser = await User.findOne({ email: 'testuser@ecofinds.com' }).select('+password');
+  if (!testUser) throw new Error('Test user not found');
 
-    // Print products for test user
-    const products = await Product.find({ seller: testUser._id });
-    console.log('Products for testuser:', products);
+  // Print test user details
+  console.log('Test user details:');
+  console.log('Email:', testUser.email);
+  console.log('isActive:', testUser.isActive);
+  console.log('Password hash:', testUser.password);
 
-    // Print cart for test user
-    const cart = await Cart.findOne({ user: testUser._id }).populate('items.product');
-    console.log('Cart for testuser:', cart);
+  // Print products for test user
+  const products = await Product.find({ seller: testUser._id });
+  console.log('Products for testuser:', products);
 
-    // Print orders for test user
-    const orders = await Order.find({ buyer: testUser._id });
-    console.log('Orders for testuser:', orders);
+  // Print cart for test user
+  const cart = await Cart.findOne({ user: testUser._id }).populate('items.product');
+  console.log('Cart for testuser:', cart);
 
-    process.exit(0);
+  // Print orders for test user
+  const orders = await Order.find({ buyer: testUser._id });
+  console.log('Orders for testuser:', orders);
+
+  process.exit(0);
   } catch (err) {
     console.error('❌ Error printing test user data:', err);
     process.exit(1);
