@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import logo from '../logo.png';
+const logo = '/server/uploads/logonew.png';
 import api from '../services/api';
 import ProductCard from '../components/common/ProductCard';
 

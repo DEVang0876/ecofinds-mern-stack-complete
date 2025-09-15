@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import logo from '../../logo.png';
+const logo = '/server/uploads/logonew.png';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 

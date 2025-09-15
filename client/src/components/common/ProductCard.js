@@ -35,14 +35,12 @@ const ProductCard = ({ product, actions }) => {
 	};
 
 	return (
-		<div className="card product-card-ui">
+		<div className="card product-card-ui" style={{cursor:'pointer'}} onClick={() => navigate(`/products/${product._id}`)}>
 			<div className="product-image-wrapper">
 				<img src={img.url} alt={img.alt || product.title} />
 			</div>
 			<div style={{ marginTop: 12, display: 'flex', flexDirection: 'column', gap: 8 }}>
-				<Link to={`/products/${product._id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-					<h3 style={{ fontSize: '15px', lineHeight: '1.3', margin: 0 }}>{product.title}</h3>
-				</Link>
+				<h3 style={{ fontSize: '15px', lineHeight: '1.3', margin: 0 }}>{product.title}</h3>
 				<div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
 					<span style={{ fontWeight: 600 }}>${product.price}</span>
 					<span className="badge" style={{ textTransform: 'capitalize' }}>{product.condition}</span>

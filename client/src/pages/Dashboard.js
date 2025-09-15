@@ -61,8 +61,12 @@ const Dashboard = () => {
 			<h2 style={{margin:'0 0 24px'}}>Dashboard</h2>
 			<div style={{display:'grid', gap:24, gridTemplateColumns:'repeat(auto-fit,minmax(260px,1fr))', marginBottom:28}}>
 				<div className="card" style={{display:'flex', gap:16, alignItems:'center'}}>
-					<div style={{width:70, height:70, borderRadius:'50%', overflow:'hidden', border:'2px solid var(--color-border)'}}>
-						<img src={user?.avatar || 'https://via.placeholder.com/150?text=User'} alt="avatar" style={{width:'100%', height:'100%', objectFit:'cover'}} />
+					<div style={{width:70, height:70, borderRadius:'50%', overflow:'hidden', border:'2px solid var(--color-border)', background:'#eef2ff', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'2.2rem', fontWeight:700, color:'#4338ca'}}>
+						{user?.avatar ? (
+							<img src={user.avatar} alt="avatar" style={{width:'100%', height:'100%', objectFit:'cover'}} />
+						) : (
+							(user?.firstName?.[0] || user?.email?.[0] || 'U').toUpperCase()
+						)}
 					</div>
 					<div style={{flex:1}}>
 						<div style={{fontWeight:600, fontSize:'1rem'}}>{user?.firstName} {user?.lastName}</div>
