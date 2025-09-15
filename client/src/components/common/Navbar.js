@@ -1,8 +1,8 @@
 
 import React, { useState } from 'react';
-const logo = '/server/uploads/logonew.png';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+const logo = '/server/uploads/logonew.png';
 
 const Navbar = () => {
 	const { isAuthenticated, user, logout } = useAuth();
