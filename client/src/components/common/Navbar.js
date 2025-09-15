@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-const logo = '/server/uploads/logonew.png';
+const logo = '/logonew.png';
 
 const Navbar = () => {
 	const { isAuthenticated, user, logout } = useAuth();

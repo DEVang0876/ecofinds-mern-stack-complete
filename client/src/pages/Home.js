@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import api from '../services/api';
 import ProductCard from '../components/common/ProductCard';
-const logo = '/server/uploads/logonew.png';
+const logo = '/logonew.png';
 
 const FEATURED_CATEGORIES = [
 	'Electronics','Clothing','Furniture','Books'
