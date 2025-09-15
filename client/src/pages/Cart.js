@@ -18,7 +18,8 @@ const Cart = () => {
 		error,
 		clearError
 	} = useCart();
-  const [placing, setPlacing] = useState(false);
+	const [placing, setPlacing] = useState(false);
+	const [orderPlaced, setOrderPlaced] = useState(false);
   const navigate = useNavigate();
 
 	const handleUpdate = async (productId, quantity) => {
@@ -49,7 +50,8 @@ const Cart = () => {
 			const res = await api.post('/orders', { items: orderItems });
 			toast.success('Order placed');
 			await clearCart();
-			setTimeout(() => navigate('/orders'), 500);
+			setOrderPlaced(true);
+			setTimeout(() => navigate('/orders'), 1200);
 		} catch (err) {
 			toast.error(err?.response?.data?.message || 'Checkout failed');
 		} finally {
@@ -62,9 +64,14 @@ const Cart = () => {
 			<h2 style={{margin:'0 0 16px'}}>Shopping Cart</h2>
 			{loading && <p>Loading...</p>}
 			{error && <p className="error" style={{color:'var(--color-danger)'}}>{error}</p>}
-			{items.length === 0 ? (
+			{orderPlaced && (
+				<div className="card" style={{marginBottom:24, padding:'24px', textAlign:'center', background:'#dcfce7', color:'#166534', fontWeight:600}}>
+					<span style={{fontSize:'1.2rem'}}>✅ Your order has been placed!</span>
+				</div>
+			)}
+			{items.length === 0 && !orderPlaced ? (
 				<p>Your cart is empty.</p>
-			) : (
+			) : (!orderPlaced && (
 				<div style={{display:'grid', gap:24, gridTemplateColumns:'minmax(0,1fr) 320px'}}>
 					<div style={{display:'flex', flexDirection:'column', gap:16}}>
 						{items.map(item => (
@@ -102,7 +109,7 @@ const Cart = () => {
 						<Button style={{width:'100%'}} onClick={handleCheckout} disabled={placing || items.length===0}>{placing ? 'Placing...' : 'Checkout'}</Button>
 					</div>
 				</div>
-			)}
+			))}
 			<ToastContainer />
 		</div>
 	);
